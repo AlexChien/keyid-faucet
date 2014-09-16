@@ -22,13 +22,26 @@ app.use(passport.session())
 passport.serializeUser(function (user, callback) { callback(null, user) })
 passport.deserializeUser(function (user, callback) { callback(null, user) })
 
-app.get('/profile.json', function (request, response) {
-  if (request.user) {
-    response.json({ profile: request.user })
-  } else {
-    response.json({})
-  }
+app.get('/user.json', function (request, response) {
+  response.json({ user: request.user && format_user(request.user) })
 })
+
+function format_user(data) {
+  return {
+    provider: data.provider,
+    full_name: data.displayName,
+    registration_date: get_user_creation_date(data).toISOString()
+  }
+}
+
+function get_user_creation_date(data) {
+  switch (data.provider) {
+  case 'twitter':
+    return new Date(data._raw.created_at)
+  default:
+    return new Date
+  }
+}
 
 app.get('/connect/error', function (request, response) {
   response.end('Error: Failed to authenticate with identity provider')
@@ -52,8 +65,8 @@ passport.use(new (require('passport-facebook').Strategy)({
   clientID: getenv('FACEBOOK_ID'),
   clientSecret: getenv('FACEBOOK_SECRET'),
   callbackURL: getenv('APP_URL') + '/connect/facebook/callback'
-}, function (access_token, refresh_token, profile, done) {
-  done(null, profile)
+}, function (access_token, refresh_token, profile, callback) {
+  callback(null, profile)
 }))
 
 //----------------------------------------------------------------------------
@@ -67,8 +80,8 @@ passport.use(new (require('passport-twitter').Strategy)({
   consumerKey: getenv('TWITTER_ID'),
   consumerSecret: getenv('TWITTER_SECRET'),
   callbackURL: getenv('APP_URL') + '/connect/twitter/callback'
-}, function (token, token_secret, profile, done) {
-  done(null, profile)
+}, function (token, token_secret, profile, callback) {
+  callback(null, profile)
 }))
 
 //----------------------------------------------------------------------------
@@ -81,6 +94,6 @@ app.get('/connect/google/callback', passport.authenticate('google', {
 passport.use(new (require('passport-google').Strategy)({
   returnURL: getenv('APP_URL') + '/connect/google/callback',
   realm: getenv('APP_URL')
-}, function (identifier, profile, done) {
-  done(null, profile)
+}, function (identifier, profile, callback) {
+  callback(null, profile)
 }))
