@@ -9,5 +9,5 @@ h2 { font-size: 100%; margin-top: 0; color: gray; }
 input { width: 100%; }
 .connected { padding: 1ex 1em; background: #ffc; text-align: center; }
 .connected { position: relative; }
-.connected a { position: absolute; top: 1ex; right: 1em; }
+.connected a { position: absolute; top: .5ex; right: .5em; }
 .connected a { text-decoration: none; }
