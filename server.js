@@ -31,7 +31,7 @@ function format_user(data) {
     provider: data.provider,
     name: data.displayName,
     image: data.photos.length && data.photos[0].value,
-    date: null // get_user_creation_date(data).toISOString()
+    date: get_user_creation_date(data).toISOString()
   }
 }
 
@@ -40,7 +40,7 @@ function get_user_creation_date(data) {
   switch (data.provider) {
   case 'twitter':
     try {
-      return new Date(data._raw.created_at)
+      return new Date(new Date(data._raw.created_at).toISOString())
     } catch (error) {
       console.error('Failed to parse date: %s', data._raw.created_at)
       return new Date
