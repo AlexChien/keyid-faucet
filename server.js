@@ -30,6 +30,11 @@ app.get('/connect/error', function (request, response) {
   response.end('Error: Failed to authenticate with identity provider')
 })
 
+app.get('/disconnect', function (request, response) {
+  response.logout()
+  response.redirect('/')
+})
+
 app.listen(getenv('PORT'))
 
 //----------------------------------------------------------------------------
@@ -44,8 +49,7 @@ passport.use(new (require('passport-facebook').Strategy)({
   clientSecret: getenv('FACEBOOK_SECRET'),
   callbackURL: getenv('APP_URL') + '/connect/facebook/callback'
 }, function (access_token, refresh_token, profile, done) {
-  console.log('Facebook profile: %s', JSON.stringify(profile))
-  done(null, { profile: profile })
+  done(null, profile)
 }))
 
 //----------------------------------------------------------------------------
@@ -60,8 +64,7 @@ passport.use(new (require('passport-twitter').Strategy)({
   consumerSecret: getenv('TWITTER_SECRET'),
   callbackURL: getenv('APP_URL') + '/connect/twitter/callback'
 }, function (token, token_secret, profile, done) {
-  console.log('Twitter profile: %s', JSON.stringify(profile))
-  done(null, { profile: profile })
+  done(null, profile)
 }))
 
 //----------------------------------------------------------------------------
@@ -75,6 +78,5 @@ passport.use(new (require('passport-google').Strategy)({
   returnURL: getenv('APP_URL') + '/connect/google/callback',
   realm: getenv('APP_URL')
 }, function (identifier, profile, done) {
-  console.log('Google profile: %s', JSON.stringify(profile))
-  done(null, { profile: profile })
+  done(null, profile)
 }))
