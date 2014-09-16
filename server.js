@@ -36,13 +36,14 @@ function format_user(data) {
 }
 
 function get_user_creation_date(data) {
-  console.log('Created at: %s', JSON.stringify(data._raw.created_at))
   switch (data.provider) {
   case 'twitter':
+    var date = data._raw.created_at
     try {
-      return new Date(new Date(data._raw.created_at).toISOString())
+      return new Date(new Date(date).toISOString())
     } catch (error) {
-      console.error('Failed to parse date: %s', data._raw.created_at)
+      console.error('Failed to parse date: %s', date)
+      console.error('Data: ', JSON.stringify(date, null, 2))
       return new Date
     }
   default:
