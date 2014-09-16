@@ -11,3 +11,4 @@ input { width: 100%; }
 .highlight { position: relative; }
 .highlight a { position: absolute; top: .5ex; right: .5ex; }
 .highlight a { text-decoration: none; color: gray; line-height: 1ex; }
+small { color: gray; }

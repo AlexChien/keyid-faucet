@@ -16,16 +16,15 @@
         </hgroup>
       </header>
       <div ng-show="!user">
-        <p>
-          To claim your free KeyID account, please authenticate with
-          an existing identity provider.  (This is only done to
-          prevent denial of service attacks.)
-        </p>
+        <p>To claim your free KeyID account, please authenticate with
+          one of the following centralized identity providers:</p>
         <ul>
           <li><a href="/auth/facebook">Authenticate with Facebook</a></li>
           <li><a href="/auth/twitter">Authenticate with Twitter</a></li>
           <li><a href="/auth/google">Authenticate with Google</a></li>
         </ul>
+        <p><small>Note: This step is only necessary in order to
+            prevent denial of service attacks.</small></p>
       </div>
       <div ng-show="user">
         <div class="highlight">
