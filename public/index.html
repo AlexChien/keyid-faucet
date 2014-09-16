@@ -13,9 +13,9 @@
         <h1>BitShares KeyID</h1>
         <h2>Free account registration faucet</h2>
       </hgroup>
-      <pre ng-show="profile">
-        {{profile | json}}
-      </pre>
+      <div ng-show="profile">
+        {{profile||json}}
+      </div>
       <div ng-show="!profile">
         <p>Please authenticate with one of the identity providers listed
           below to claim your KeyID account.  (This is only necessary in
