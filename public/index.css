@@ -1,0 +1,12 @@
+* { box-sizing: border-box; }
+body { font-family: sans-serif; color: white; }
+body { text-align: center; margin-top: 50vh; }
+.container { display: inline-block; transform: scale(2) translateY(-50%); }
+.container { text-align: left; transform-origin: top center; }
+.container { min-height: 10em; width: 14em; }
+h1 { font-size: 150%; margin-top: 0; margin-bottom: .2ex; }
+h2 { font-size: 70%; margin-top: 0; color: gray; }
+p { font-size: 70%; }
+input { width: 100%; }
+.highlight { padding: 1ex 1em; background: rgba(255,255,255..2); }
+.highlight { text-align: center; font: bold 45% monospace; }
