@@ -29,8 +29,9 @@ app.get('/user.json', function (request, response) {
 function format_user(data) {
   return {
     provider: data.provider,
-    full_name: data.displayName,
-    registration_date: get_user_creation_date(data).toISOString()
+    name: data.displayName,
+    image: data.photos.length && data.photos[0].value,
+    date: get_user_creation_date(data).toISOString()
   }
 }
 
