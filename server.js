@@ -29,7 +29,7 @@ app.get('/user.json', function (request, response) {
   response.json({ user: request.user && get_user_data(request.user) })
 })
 
-app.get('/register-account', function () {
+app.get('/register-account', function (request, response) {
   var key = request.body.account_key
   var name = request.body.account_name
   var payload = JSON.stringify({ account_key: key, account_name: name })
@@ -42,10 +42,11 @@ app.get('/register-account', function () {
   console.log(
     'Posting JSON: %s', JSON.stringify(json)
   )
-  request.post({
+  require('request').post({
     url: getenv('BACKEND_URL'),
     json: json
   }, function (error, response, body) {
+    response.end(error ? error.toString() : JSON.stringify(body))
     console.log('Done registering: %s %s', error, body)
   })
 })
