@@ -12,19 +12,49 @@ function getenv(name) {
   }
 }
 
+passport.serializeUser(function (user, callback) { callback(null, user) })
+passport.deserializeUser(function (user, callback) { callback(null, user) })
+
 var app = express()
 
 app.use(express.static(__dirname + '/public'))
 app.use(require('express-session')({ secret: getenv('SESSION_SECRET') }))
 app.use(passport.initialize())
 app.use(passport.session())
-passport.serializeUser(function (user, callback) { callback(null, user) })
-passport.deserializeUser(function (user, callback) { callback(null, user) })
+app.use(require('body-parser')())
+
 app.listen(getenv('PORT'))
 
 app.get('/user.json', function (request, response) {
   response.json({ user: request.user && get_user_data(request.user) })
 })
+
+app.get('/register-account', function () {
+  var key = request.body.account_key
+  var name = request.body.account_name
+  var payload = JSON.stringify({ account_key: key, account_name: name })
+  var hmac = hmac_sha256_base64(payload, secret)
+  console.log(
+    'Registering name %s to key %s...',
+    JSON.stringify(name), JSON.stringify(key)
+  )
+  var json = { hmac_sha256_base64: hmac, payload: payload }
+  console.log(
+    'Posting JSON: %s', JSON.stringify(json)
+  )
+  request.post({
+    url: getenv('BACKEND_URL'),
+    json: json
+  }, function (error, response, body) {
+    console.log('Done registering: %s %s', error, body)
+  })
+})
+
+function hmac_sha256_base64(payload, secret) {
+  return require('crypto')
+    .createHmac('sha256', secret)
+    .update(payload).digest('base64')
+}
 
 app.get('/auth/disconnect', function (request, response) {
   request.logout()
