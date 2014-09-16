@@ -12,6 +12,8 @@ function getenv(name) {
 var app = express()
 
 app.use(express.static(__dirname + '/public'))
+app.use(require('express-session')({ secret: getenv('SESSION_SECRET') }))
+
 app.listen(getenv('PORT'))
 
 //----------------------------------------------------------------------------
