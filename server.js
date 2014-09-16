@@ -36,6 +36,7 @@ function format_user(data) {
 }
 
 function get_user_creation_date(data) {
+  console.log('Created at: %s', JSON.stringify(data._raw.created_at))
   switch (data.provider) {
   case 'twitter':
     try {
