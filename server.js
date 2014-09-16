@@ -31,7 +31,7 @@ function format_user(data) {
     provider: data.provider,
     name: data.displayName,
     image: data.photos.length && data.photos[0].value,
-    date: get_user_creation_date(data).toISOString()
+    date: null // get_user_creation_date(data).toISOString()
   }
 }
 
