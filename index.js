@@ -1,6 +1,9 @@
 var express = require('express')
 var passport = require('passport')
 
+var SUCCESS_URL = '/profile'
+var FAILURE_URL = '/connect/error'
+
 function getenv(name) {
   if (name in process.env) {
     return process.env[name]
@@ -19,13 +22,21 @@ app.use(passport.session())
 passport.serializeUser(function (user, callback) { callback(null, user) })
 passport.deserializeUser(function (user, callback) { callback(null, user) })
 
+app.get('/profile', function (request, response) {
+  response.end(JSON.stringify(request.session.user))
+})
+
+app.get('/connect/error', function (request, response) {
+  response.end('Error: Failed to authenticate with identity provider')
+})
+
 app.listen(getenv('PORT'))
 
 //----------------------------------------------------------------------------
 
 app.get('/connect/facebook', passport.authenticate('facebook'))
 app.get('/connect/facebook/callback', passport.authenticate('facebook', {
-  successRedirect: '/', failureRedirect: '/'
+  successRedirect: SUCCESS_URL, failureRedirect: FAILURE_URL
 }))
 
 passport.use(new (require('passport-facebook').Strategy)({
@@ -41,7 +52,7 @@ passport.use(new (require('passport-facebook').Strategy)({
 
 app.get('/connect/twitter', passport.authenticate('twitter'))
 app.get('/connect/twitter/callback', passport.authenticate('twitter', {
-  successRedirect: '/', failureRedirect: '/'
+  successRedirect: SUCCESS_URL, failureRedirect: FAILURE_URL
 }))
 
 passport.use(new (require('passport-twitter').Strategy)({
@@ -57,7 +68,7 @@ passport.use(new (require('passport-twitter').Strategy)({
 
 app.get('/connect/google', passport.authenticate('google'))
 app.get('/connect/google/callback', passport.authenticate('google', {
-  successRedirect: '/', failureRedirect: '/'
+  successRedirect: SUCCESS_URL, failureRedirect: FAILURE_URL
 }))
 
 passport.use(new (require('passport-google').Strategy)({
