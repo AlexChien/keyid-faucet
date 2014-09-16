@@ -13,6 +13,8 @@ var app = express()
 
 app.use(express.static(__dirname + '/public'))
 app.use(require('express-session')({ secret: getenv('SESSION_SECRET') }))
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.listen(getenv('PORT'))
 
