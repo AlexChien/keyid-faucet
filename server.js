@@ -29,7 +29,7 @@ app.get('/user.json', function (request, response) {
   response.json({ user: request.user && get_user_data(request.user) })
 })
 
-app.get('/register-account', function (request, response) {
+app.post('/register-account', function (request, response) {
   var key = request.body.account_key
   var name = request.body.account_name
   var payload = JSON.stringify({ account_key: key, account_name: name })
