@@ -16,7 +16,8 @@
         </hgroup>
       </header>
       <article class="profile" ng-show="profile">
-        <img ng-src="{{profile.photos[0]}}">
+        <img ng-show="profile.photos.length"
+             ng-src="{{profile.photos[0].value}}">
         <strong>{{profile.displayName}}</strong>
       </article>
       <div ng-show="!profile">
