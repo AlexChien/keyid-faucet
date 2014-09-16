@@ -2,7 +2,7 @@ var express = require('express')
 var passport = require('passport')
 
 var SUCCESS_URL = '/'
-var FAILURE_URL = '/connect/error'
+var FAILURE_URL = '/auth/error'
 
 function getenv(name) {
   if (name in process.env) {
@@ -26,12 +26,12 @@ app.get('/user.json', function (request, response) {
   response.json({ user: request.user && get_user_data(request.user) })
 })
 
-app.get('/disconnect', function (request, response) {
+app.get('/auth/disconnect', function (request, response) {
   request.logout()
   response.redirect('/')
 })
 
-app.get('/connect/error', function (request, response) {
+app.get('/auth/error', function (request, response) {
   response.end('Error: Failed to authenticate with identity provider')
 })
 
@@ -79,43 +79,43 @@ function get_user_date(data) {
 
 //----------------------------------------------------------------------------
 
-app.get('/connect/facebook', passport.authenticate('facebook'))
-app.get('/connect/facebook/callback', passport.authenticate('facebook', {
+app.get('/auth/facebook', passport.authenticate('facebook'))
+app.get('/auth/facebook/callback', passport.authenticate('facebook', {
   successRedirect: SUCCESS_URL, failureRedirect: FAILURE_URL
 }))
 
 passport.use(new (require('passport-facebook').Strategy)({
   clientID: getenv('FACEBOOK_ID'),
   clientSecret: getenv('FACEBOOK_SECRET'),
-  callbackURL: getenv('APP_URL') + '/connect/facebook/callback'
+  callbackURL: getenv('APP_URL') + '/auth/facebook/callback'
 }, function (access_token, refresh_token, profile, callback) {
   callback(null, profile)
 }))
 
 //----------------------------------------------------------------------------
 
-app.get('/connect/twitter', passport.authenticate('twitter'))
-app.get('/connect/twitter/callback', passport.authenticate('twitter', {
+app.get('/auth/twitter', passport.authenticate('twitter'))
+app.get('/auth/twitter/callback', passport.authenticate('twitter', {
   successRedirect: SUCCESS_URL, failureRedirect: FAILURE_URL
 }))
 
 passport.use(new (require('passport-twitter').Strategy)({
   consumerKey: getenv('TWITTER_ID'),
   consumerSecret: getenv('TWITTER_SECRET'),
-  callbackURL: getenv('APP_URL') + '/connect/twitter/callback'
+  callbackURL: getenv('APP_URL') + '/auth/twitter/callback'
 }, function (token, token_secret, profile, callback) {
   callback(null, profile)
 }))
 
 //----------------------------------------------------------------------------
 
-app.get('/connect/google', passport.authenticate('google'))
-app.get('/connect/google/callback', passport.authenticate('google', {
+app.get('/auth/google', passport.authenticate('google'))
+app.get('/auth/google/callback', passport.authenticate('google', {
   successRedirect: SUCCESS_URL, failureRedirect: FAILURE_URL
 }))
 
 passport.use(new (require('passport-google').Strategy)({
-  returnURL: getenv('APP_URL') + '/connect/google/callback',
+  returnURL: getenv('APP_URL') + '/auth/google/callback',
   realm: getenv('APP_URL')
 }, function (identifier, profile, callback) {
   callback(null, profile)
