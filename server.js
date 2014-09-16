@@ -27,44 +27,57 @@ app.get('/user.raw.json', function (request, response) {
 })
 
 app.get('/user.json', function (request, response) {
-  response.json({ user: request.user && format_user(request.user) })
+  response.json({ user: request.user && get_user_data(request.user) })
 })
-
-function format_user(data) {
-  return {
-    provider: data.provider,
-    name: data.displayName,
-    image: data.photos.length && data.photos[0].value,
-    date: get_user_creation_date(data).toISOString()
-  }
-}
-
-function get_user_creation_date(data) {
-  switch (data.provider) {
-  case 'twitter':
-    var date = data._raw.created_at
-    try {
-      return new Date(new Date(date).toISOString())
-    } catch (error) {
-      console.error('Failed to parse date: %s', date)
-      console.error('Data: %s', JSON.stringify(data, null, 2))
-      return new Date
-    }
-  default:
-    return new Date
-  }
-}
 
 app.get('/connect/error', function (request, response) {
   response.end('Error: Failed to authenticate with identity provider')
 })
 
 app.get('/disconnect', function (request, response) {
-  response.logout()
+  request.logout()
   response.redirect('/')
 })
 
 app.listen(getenv('PORT'))
+
+//----------------------------------------------------------------------------
+
+function format_user(data) {
+  return {
+    provider: data.provider,
+    name: get_user_name(data),
+    image: get_user_image(data),
+    date: get_user_date(data)
+  }
+}
+
+function get_user_name(data) {
+  switch (data.provider) {
+  case 'twitter':
+    return data.username
+  default:
+    return data.displayName
+  }
+}
+
+function get_user_image(data) {
+  return data.photos.length && data.photos[0].value
+}
+
+function get_user_date(data) {
+  try {
+    switch (data.provider) {
+    case 'twitter':
+      return new Date(data._json.created_at).toISOString()
+    default:
+      throw new Error
+    }
+  } catch (error) {
+    // Pretend the account was just created
+    return new Date().toISOString()
+  }
+}
 
 //----------------------------------------------------------------------------
 
