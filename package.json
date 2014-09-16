@@ -5,6 +5,7 @@
   "scripts": { "start": "node index.js" },
   "dependencies": {
     "express": "4.x",
+    "express-session": "1.8.x",
     "passport": "0.2.x",
     "passport-facebook": "1.0.x",
     "passport-twitter": "1.0.x",
