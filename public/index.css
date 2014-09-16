@@ -11,4 +11,4 @@ input { width: 100%; }
 .highlight { padding: 1ex 1em; background: #ffc; }
 .highlight { text-align: center; font: bold 45% monospace; }
 .user img { float: left; margin: 0 1em 1ex 0; }
-.user h3 { font-size: inherit; }
+.user h3 { font-size: 70%; }
