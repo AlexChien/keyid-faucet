@@ -23,7 +23,11 @@ passport.serializeUser(function (user, callback) { callback(null, user) })
 passport.deserializeUser(function (user, callback) { callback(null, user) })
 
 app.get('/profile.json', function (request, response) {
-  response.json(request.user || null)
+  if (request.user) {
+    response.json({ profile: request.user })
+  } else {
+    response.json({})
+  }
 })
 
 app.get('/connect/error', function (request, response) {
