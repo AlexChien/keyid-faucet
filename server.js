@@ -18,20 +18,12 @@ app.use(express.static(__dirname + '/public'))
 app.use(require('express-session')({ secret: getenv('SESSION_SECRET') }))
 app.use(passport.initialize())
 app.use(passport.session())
-
 passport.serializeUser(function (user, callback) { callback(null, user) })
 passport.deserializeUser(function (user, callback) { callback(null, user) })
-
-app.get('/user.raw.json', function (request, response) {
-  response.json({ user: get_user_data(request.user) })
-})
+app.listen(getenv('PORT'))
 
 app.get('/user.json', function (request, response) {
   response.json({ user: request.user && get_user_data(request.user) })
-})
-
-app.get('/connect/error', function (request, response) {
-  response.end('Error: Failed to authenticate with identity provider')
 })
 
 app.get('/disconnect', function (request, response) {
@@ -39,7 +31,9 @@ app.get('/disconnect', function (request, response) {
   response.redirect('/')
 })
 
-app.listen(getenv('PORT'))
+app.get('/connect/error', function (request, response) {
+  response.end('Error: Failed to authenticate with identity provider')
+})
 
 //----------------------------------------------------------------------------
 
@@ -122,3 +116,9 @@ passport.use(new (require('passport-google').Strategy)({
 }, function (identifier, profile, callback) {
   callback(null, profile)
 }))
+
+//----------------------------------------------------------------------------
+
+app.get('/debug/user.json', function (request, response) {
+  response.json(request.user)
+})
