@@ -7,5 +7,7 @@ body { text-align: center; margin-top: 50vh; }
 h1 { font-size: 200%; margin-top: 0; margin-bottom: .2ex; }
 h2 { font-size: 100%; margin-top: 0; color: gray; }
 input { width: 100%; }
-.highlight { padding: 1ex 1em; background: #ffc; text-align: center; }
-.highlight small { font-size: 50%; margin-left: .5em; }
+.connected { padding: 1ex 1em; background: #ffc; text-align: center; }
+.connected { position: relative; }
+.connected a { position: absolute; bottom: .5ex; right: .5em; }
+.connected a { font-size: 50%; text-decoration: none; }
