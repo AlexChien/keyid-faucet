@@ -23,6 +23,7 @@ passport.serializeUser(function (user, callback) { callback(null, user) })
 passport.deserializeUser(function (user, callback) { callback(null, user) })
 
 app.get('/user.json', function (request, response) {
+  console.log(format_user(request.user))
   response.json({ user: request.user && format_user(request.user) })
 })
 
