@@ -16,6 +16,9 @@ app.use(require('express-session')({ secret: getenv('SESSION_SECRET') }))
 app.use(passport.initialize())
 app.use(passport.session())
 
+passport.serializeUser(function (user, callback) { callback(null, user) })
+passport.deserializeUser(function (user, callback) { callback(null, user) })
+
 app.listen(getenv('PORT'))
 
 //----------------------------------------------------------------------------
@@ -29,7 +32,7 @@ passport.use(new (require('passport-facebook').Strategy)({
   clientID: getenv('FACEBOOK_ID'),
   clientSecret: getenv('FACEBOOK_SECRET'),
   callbackURL: getenv('APP_URL') + '/connect/facebook/callback'
-}, function(access_token, refresh_token, profile, done) {
+}, function (access_token, refresh_token, profile, done) {
   console.log('Facebook profile: %s', JSON.stringify(profile))
   done(null, { profile: profile })
 }))
@@ -45,7 +48,7 @@ passport.use(new (require('passport-twitter').Strategy)({
   consumerKey: getenv('TWITTER_ID'),
   consumerSecret: getenv('TWITTER_SECRET'),
   callbackURL: getenv('APP_URL') + '/connect/twitter/callback'
-}, function(token, token_secret, profile, done) {
+}, function (token, token_secret, profile, done) {
   console.log('Twitter profile: %s', JSON.stringify(profile))
   done(null, { profile: profile })
 }))
