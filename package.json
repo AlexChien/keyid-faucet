@@ -1,10 +1,10 @@
 {
   "name": "keyid-faucet",
   "version": "0.0.1",
-  "engines": {
-    "node": "0.10.x"
-  },
-  "scripts": {
-    "start": "node index.js"
+  "engines": { "node": "0.10.x" },
+  "scripts": { "start": "node index.js" },
+  "dependencies": {
+    "express": "4.x",
+    "passport": "0.2.x"
   }
 }
