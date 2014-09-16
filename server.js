@@ -37,7 +37,7 @@ app.get('/connect/error', function (request, response) {
 
 //----------------------------------------------------------------------------
 
-function format_user(data) {
+function get_user_data(data) {
   return {
     provider: data.provider,
     name: get_user_name(data),
