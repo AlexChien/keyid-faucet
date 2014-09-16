@@ -33,7 +33,7 @@ app.post('/register-account', function (request, response) {
   var key = request.body.account_key
   var name = request.body.account_name
   var payload = JSON.stringify({ account_key: key, account_name: name })
-  var hmac = hmac_sha256_base64(payload, SECRET)
+  var hmac = hmac_sha256_base64(payload, getenv('secret'))
   console.log(
     'Registering name %s to key %s...',
     JSON.stringify(name), JSON.stringify(key)
