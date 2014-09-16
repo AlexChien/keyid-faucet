@@ -15,10 +15,11 @@
           <h2>Free account registration faucet</h2>
         </hgroup>
       </header>
-      <article class="user" ng-show="user">
-        <img ng-show="user.image" ng-src="{{user.image}}">
-        <h3>{{user.name}}</h3>
-        <p>Created: {{user.date}}</p>
+      <div ng-show="user">
+        <p>
+          Connected to {{user.provider}} as {{user.name}} (account
+          created {{user.date}}). <a href="/disconnect">Disconnect</a>
+        </p>
       </article>
       <div ng-show="!user">
         <p>Please authenticate with one of the identity providers listed

@@ -49,7 +49,7 @@ function get_user_data(data) {
 function get_user_name(data) {
   switch (data.provider) {
   case 'twitter':
-    return data.username
+    return '@' + data.username
   default:
     return data.displayName
   }
