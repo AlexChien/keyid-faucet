@@ -43,7 +43,7 @@ function get_user_creation_date(data) {
       return new Date(new Date(date).toISOString())
     } catch (error) {
       console.error('Failed to parse date: %s', date)
-      console.error('Data: ', JSON.stringify(date, null, 2))
+      console.error('Data: %s', JSON.stringify(date, null, 2))
       return new Date
     }
   default:
