@@ -15,10 +15,6 @@
           <h2>Free account registration faucet</h2>
         </hgroup>
       </header>
-      <div ng-show="user" class="connected">
-        Authenticated with {{user.provider}}
-        <a href="/auth/disconnect">&times;</a>
-      </div>
       <div ng-show="!user">
         <p>Please authenticate with one of the identity providers listed
           below to claim your KeyID account.  (This is only necessary in
@@ -28,6 +24,23 @@
           <li><a href="/auth/twitter">Authenticate with Twitter</a></li>
           <li><a href="/auth/google">Authenticate with Google</a></li>
         </ul>
+      </div>
+      <div ng-show="user">
+        <div class="highlight">
+          Authenticated with {{user.provider}}
+          <a href="/auth/disconnect">&times;</a>
+        </div>
+        <form action="/register-account">
+          <div>
+            <input type="text" placeholder="KeyID account key">
+          </div>
+          <div>
+            <input type="text" placeholder="Desired KeyID username">
+          </div>
+          <div>
+            <input type="submit" value="Register KeyID account">
+          </div>
+        </form>
       </div>
     </div>
   </body>
