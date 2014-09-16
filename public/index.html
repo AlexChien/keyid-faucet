@@ -17,16 +17,16 @@
       </header>
       <div ng-show="user" class="connected">
         Authenticated with {{user.provider}}
-        <a href="/disconnect">&times;</a>
+        <a href="/auth/disconnect">&times;</a>
       </div>
       <div ng-show="!user">
         <p>Please authenticate with one of the identity providers listed
           below to claim your KeyID account.  (This is only necessary in
           order to prevent denial of service attacks.)</p>
         <ul>
-          <li><a href="/connect/facebook">Authenticate with Facebook</a></li>
-          <li><a href="/connect/twitter">Authenticate with Twitter</a></li>
-          <li><a href="/connect/google">Authenticate with Google</a></li>
+          <li><a href="/auth/facebook">Authenticate with Facebook</a></li>
+          <li><a href="/auth/twitter">Authenticate with Twitter</a></li>
+          <li><a href="/auth/google">Authenticate with Google</a></li>
         </ul>
       </div>
     </div>
