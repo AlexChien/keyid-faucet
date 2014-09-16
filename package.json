@@ -2,7 +2,7 @@
   "name": "keyid-faucet",
   "version": "0.0.1",
   "engines": { "node": "0.10.x" },
-  "scripts": { "start": "node index.js" },
+  "scripts": { "start": "node server.js" },
   "dependencies": {
     "express": "4.x",
     "express-session": "1.8.x",

@@ -1,7 +1,7 @@
 var express = require('express')
 var passport = require('passport')
 
-var SUCCESS_URL = '/profile'
+var SUCCESS_URL = '/'
 var FAILURE_URL = '/connect/error'
 
 function getenv(name) {
@@ -22,8 +22,8 @@ app.use(passport.session())
 passport.serializeUser(function (user, callback) { callback(null, user) })
 passport.deserializeUser(function (user, callback) { callback(null, user) })
 
-app.get('/profile', function (request, response) {
-  response.end(JSON.stringify(request.user))
+app.get('/profile.json', function (request, response) {
+  response.json(request.user || null)
 })
 
 app.get('/connect/error', function (request, response) {

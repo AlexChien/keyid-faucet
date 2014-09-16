@@ -1,9 +1,11 @@
 <!doctype html>
-<html>
+<html ng-app="index" ng-controller="IndexController">
   <head>
     <title>BitShares KeyID registration faucet</title>
     <link rel="stylesheet" href="index.css">
     <meta name="viewport" content="width=device-width">
+    <script src="angular.js"></script>
+    <script src="index.js"></script>
   </head>
   <body>
     <div class="container">
@@ -11,14 +13,19 @@
         <h1>BitShares KeyID</h1>
         <h2>Free account registration faucet</h2>
       </hgroup>
-      <p>Please authenticate with one of the identity providers listed
-        below to claim your KeyID account.  (This is only necessary in
-        order to prevent denial of service attacks.)</p>
-      <ul>
-        <li><a href="/connect/facebook">Connect with Facebook</a></li>
-        <li><a href="/connect/twitter">Connect with Twitter</a></li>
-        <li><a href="/connect/google">Connect with Google</a></li>
-      </ul>
+      <pre ng-view="profile">
+        {{profile | json}}
+      </pre>
+      <div ng-view="!profile">
+        <p>Please authenticate with one of the identity providers listed
+          below to claim your KeyID account.  (This is only necessary in
+          order to prevent denial of service attacks.)</p>
+        <ul>
+          <li><a href="/connect/facebook">Connect with Facebook</a></li>
+          <li><a href="/connect/twitter">Connect with Twitter</a></li>
+          <li><a href="/connect/google">Connect with Google</a></li>
+        </ul>
+      </div>
     </div>
   </body>
 </html>
