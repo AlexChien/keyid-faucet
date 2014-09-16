@@ -16,7 +16,8 @@
         </hgroup>
       </header>
       <div class="highlight" ng-show="user">
-        Authenticated: {{user.name}}
+        Connected to {{user.provider}}
+        <small><a href="/disconnect">Disconnect</a></small>
       </div>
       <div ng-show="!user">
         <p>Please authenticate with one of the identity providers listed
