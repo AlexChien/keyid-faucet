@@ -39,11 +39,15 @@ app.get('/connect/error', function (request, response) {
 
 function get_user_data(data) {
   return {
-    provider: data.provider,
+    provider: get_user_provider(data),
     name: get_user_name(data),
     image: get_user_image(data),
     date: get_user_date(data)
   }
+}
+
+function get_user_provider(data) {
+  return data.provider.charAt(0).toUpperCase() + data.provider.substring(1)
 }
 
 function get_user_name(data) {
