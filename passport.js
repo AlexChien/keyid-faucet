@@ -30,6 +30,11 @@ Passport.use(new (require('passport-google').Strategy)({
 }))
 
 module.exports = function (app) {
+  app.use(require('express-session')({
+    resave: false, saveUninitialized: false,
+    secret: require('./getenv.js')('SESSION_SECRET')
+  }))
+
   app.use(Passport.initialize())
   app.use(Passport.session())
 
