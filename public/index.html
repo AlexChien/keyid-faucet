@@ -34,6 +34,7 @@
         <div ng-show="!result">
           <p>To register your account, please enter your account key
             as shown in your KeyID wallet.</p>
+          <p ng-show="error" class="error">{{error}}</p>
           <form ng-submit="register_account()">
             <div>
               <input type="text" ng-model="key"

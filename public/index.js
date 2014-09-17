@@ -7,7 +7,11 @@ app.controller('IndexController', function ($scope, $http) {
       $http.post('/register-account', {
         key: $scope.key, name: $scope.name
       }).success(function (data) {
-        $scope.result = data
+        if (data.error) {
+          $scope.error = data.error
+        } else {
+          $scope.result = data.result
+        }
       })
     }
   })
