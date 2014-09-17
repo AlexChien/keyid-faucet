@@ -10,13 +10,7 @@ app.use(require('express-session')({
 
 require('./passport.js')(app)
 
-// app.use(require('./user-parse.js'))
-app.use(function (request, response, next) {
-  request.parsed_user = {
-    provider: 'twitter', name: 'foo', date: new Date().toISOString()
-  }
-  next()
-})
+app.use(require('./user-parse.js'))
 
 app.get('/user.raw.json', function (request, response) {
   response.json(request.user)
