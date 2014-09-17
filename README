@@ -1,16 +1,16 @@
-export APP_URL=http://url-of-this-app-for-auth:5555
-export PORT=5555
-export SESSION_SECRET=anything-it-doesnt-matter
-
 export BACKEND_URL=http://url-of-backend-app:4444
 export BACKEND_SECRET=random-string-shared-with-backend
 
+export APP_URL=http://url-of-this-app-for-auth:5555
 export FACEBOOK_ID=xxx
 export FACEBOOK_SECRET=xxx
 export GOOGLE_ID=xxx
 export GOOGLE_SECRET=xxx
 export TWITTER_ID=xxx
 export TWITTER_SECRET=xxx
+
+export SESSION_SECRET=anything-it-doesnt-matter
+export PORT=5555
 
 npm install
 npm start
