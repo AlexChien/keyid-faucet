@@ -43,11 +43,9 @@ module.exports = function (app) {
   app.use(Passport.session())
 
   PROVIDERS.split(' ').forEach(function (provider) {
-    app.get(
-      '/auth/' + provider,
-      Passport.authenticate(provider),
-      PROVIDER_OPTIONS[provider]
-    )
+    app.get('/auth/' + provider, Passport.authenticate(
+      provider, PROVIDER_OPTIONS[provider]
+    ))
     app.get('/auth/' + provider + '/callback', Passport.authenticate(
       provider, { successRedirect: '/', failureRedirect: '/auth/error' }
     ))
