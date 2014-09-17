@@ -6,7 +6,7 @@ module.exports = function (request, response) {
     url: BACKEND_URL, json: request.body, headers: {
       authorization: require('hawk').client.header(BACKEND_URL, 'POST', {
         credentials: {
-          id: 'faucet', key: BACKEND_SECRET, algorithm: 'sha256'
+          id: 'not-used', key: BACKEND_SECRET, algorithm: 'sha256'
         }
       }).field
     }
