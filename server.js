@@ -16,7 +16,7 @@ app.get('/user/raw', function (request, response) {
 })
 
 app.post(
-  '/accounts',
+  '/register-account',
   require('./authorize.js'),
   require('./call-backend.js')
 )
