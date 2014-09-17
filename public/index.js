@@ -4,9 +4,10 @@ app.controller('IndexController', function ($scope, $http) {
   $http.get('/user').success(function (data) {
     $scope.user = data.user
     $scope.register = function (key, name) {
-      $http.post('/register-account', {
-        key: key, name: name
-      }).success(function (data) {
+      $http({
+        method: 'POST', url: '/register-account',
+        data: { key: key, name: name }
+      ).success(function (data) {
         $scope.result = data
       })
     }
