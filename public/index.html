@@ -26,26 +26,31 @@
         <p><small>Note: This step is only necessary in order to
             prevent denial of service attacks.</small></p>
       </div>
-      <div ng-show="true || user">
+      <div ng-show="user">
         <div class="highlight">
           Authenticated with {{user.provider}}
           <a href="/auth/disconnect">&times;</a>
         </div>
-        <p>To register your account, please enter your account key as
-          shown in your KeyID wallet application.</p>
-        <form method="POST" action="/accounts">
-          <div>
-            <input type="text" name="key"
-                   placeholder="Account key">
-          </div>
-          <div>
-            <input type="text" name="name"
-                   placeholder="Choose your username">
-          </div>
-          <div>
-            <input type="submit" value="Register KeyID account">
-          </div>
-        </form>
+        <div ng-show="!result">
+          <p>To register your account, please enter your account key as
+            shown in your KeyID wallet application.</p>
+          <form ng-submit="register(key, name)">
+            <div>
+              <input type="text" name="key"
+                     placeholder="Account key">
+            </div>
+            <div>
+              <input type="text" name="name"
+                     placeholder="Choose your username">
+            </div>
+            <div>
+              <input type="submit" value="Register KeyID account">
+            </div>
+          </form>
+        </div>
+        <div ng-show="result">
+          <pre>{{result | json}}</pre>
+        </div>
       </div>
     </div>
   </body>
