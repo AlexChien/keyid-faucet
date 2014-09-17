@@ -26,7 +26,7 @@ function get_name(user) {
 }
 
 function get_image(user) {
-  return user.photos.length && user.photos[0].value
+  return user.photos && user.photos[0] && user.photos[0].value
 }
 
 function get_date(user) {
