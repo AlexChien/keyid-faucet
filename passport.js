@@ -10,8 +10,8 @@ Passport.serializeUser(function (x, ok) { return ok(null, x) })
 Passport.deserializeUser(function (x, ok) { return ok(null, x) })
 
 Passport.use(new (require('passport-google-oauth').OAuth2Strategy)({
-  consumerKey: getenv('GOOGLE_ID'),
-  consumerSecret: getenv('GOOGLE_SECRET'),
+  clientID: getenv('GOOGLE_ID'),
+  clientSecret: getenv('GOOGLE_SECRET'),
   callbackURL: APP_URL + '/auth/google/callback'
 }, function (identifier, profile, callback) {
   callback(null, profile)
