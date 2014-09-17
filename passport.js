@@ -1,8 +1,7 @@
-var passport = require('passport')
 var getenv = require('./getenv.js')
+var passport = require('passport')
 
 var APP_URL = getenv('APP_URL')
-
 var PROVIDERS = 'google twitter facebook'.split(' ')
 var PROVIDER_OPTIONS = { google: { scope: ['profile'] } }
 
@@ -36,7 +35,7 @@ passport.use(new (require('passport-twitter').Strategy)({
 module.exports = function (app) {
   app.use(require('express-session')({
     resave: false, saveUninitialized: false,
-    secret: require('./getenv.js')('SESSION_SECRET')
+    secret: getenv('SESSION_SECRET')
   }))
 
   app.use(passport.initialize())
