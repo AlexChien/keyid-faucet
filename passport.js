@@ -13,7 +13,7 @@ Passport.use(new (require('passport-google-oauth').OAuth2Strategy)({
   clientID: getenv('GOOGLE_ID'),
   clientSecret: getenv('GOOGLE_SECRET'),
   callbackURL: APP_URL + '/auth/google/callback'
-}, function (identifier, profile, callback) {
+}, function (access_token, refresh_token, profile, callback) {
   callback(null, profile)
 }))
 
