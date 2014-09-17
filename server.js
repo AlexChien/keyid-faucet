@@ -58,6 +58,10 @@ app.post('/register', function (request, response) {
   }
 })
 
+function valid_user(user) {
+  return !!user
+}
+
 function register_account(key, name, callback) {
   var log_prefix = Format('REGISTER %j %j', key, name)
   var payload = JSON.stringify({ account_key: key, account_name: name })
