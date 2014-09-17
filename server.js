@@ -1,10 +1,4 @@
-var express = require('express')
-var passport = require('passport')
-
-var SUCCESS_URL = '/'
-var FAILURE_URL = '/auth/error'
-
-function getenv(name) {
+function Getenv(name) {
   if (name in process.env) {
     return process.env[name]
   } else {
@@ -12,46 +6,81 @@ function getenv(name) {
   }
 }
 
-passport.serializeUser(function (user, callback) { callback(null, user) })
-passport.deserializeUser(function (user, callback) { callback(null, user) })
+var APP_URL = Getenv('APP_URL')
+var BACKEND_SECRET = Getenv('BACKEND_SECRET')
+var BACKEND_URL = Getenv('BACKEND_URL')
+var FACEBOOK_ID = Getenv('FACEBOOK_ID')
+var FACEBOOK_SECRET = Getenv('FACEBOOK_SECRET')
+var PORT = Getenv('PORT')
+var SESSION_SECRET = Getenv('SESSION_SECRET')
+var TWITTER_ID = Getenv('TWITTER_ID')
+var TWITTER_SECRET = Getenv('TWITTER_SECRET')
 
-var app = express()
+var Express = require('express')
+var Format = require('util').format
+var Passport = require('passport')
 
-app.use(express.static(__dirname + '/public'))
-app.use(require('express-session')({ secret: getenv('SESSION_SECRET') }))
-app.use(passport.initialize())
-app.use(passport.session())
+function id(x, callback) { return callback(null, x) }
+Passport.serializeUser(id)
+Passport.deserializeUser(id)
+
+var app = Express()
+
+app.use(Express.static(__dirname + '/public'))
+app.use(require('express-session')({ secret: SESSION_SECRET }))
+app.use(Passport.initialize())
+app.use(Passport.session())
 app.use(require('body-parser')())
 
-app.listen(getenv('PORT'))
+app.listen(PORT)
+
+//----------------------------------------------------------------------------
 
 app.get('/user.json', function (request, response) {
   response.json({ user: request.user && get_user_data(request.user) })
 })
 
-app.post('/register-account', function (request, response) {
-  var key = request.body.account_key
-  var name = request.body.account_name
-  var payload = JSON.stringify({ account_key: key, account_name: name })
-  var hmac = hmac_sha256_base64(payload, getenv('BACKEND_SECRET'))
-  console.log(
-    'Registering name %s to key %s...',
-    JSON.stringify(name), JSON.stringify(key)
-  )
-  var json = { hmac_sha256_base64: hmac, payload: payload }
-  console.log(
-    'Posting JSON: %s', JSON.stringify(json)
-  )
-  require('request').post({
-    url: getenv('BACKEND_URL'),
-    json: json
-  }, function (error, raw, body) {
-    response.end(error ? error.toString() : JSON.stringify(body))
-    console.log('Done registering: %s %s', error, body)
-  })
+app.post('/register', function (request, response) {
+  if (valid_user(request.user)) {
+    var key = request.body.account_key
+    var name = request.body.account_name
+    register_account(key, name, function (error, body) {
+      if (error) {
+        response.writeHead(500)
+        response.end(error.message)
+      } else {
+        response.end(body)
+      }
+    })
+  } else {
+    response.writeHead(401)
+    response.end()
+  }
 })
 
-function hmac_sha256_base64(payload, secret) {
+function register_account(key, name, callback) {
+  var log_prefix = Format('REGISTER %j %j', key, name)
+  var payload = JSON.stringify({ account_key: key, account_name: name })
+
+  console.log('%s', log_prefix)
+  require('request').post({
+    url: BACKEND_URL,
+    json: {
+      hmac_sha256_base64: HMAC(payload, BACKEND_SECRET),
+      payload: payload
+    }
+  }, function (error, raw, body) {
+    if (error) {
+      console.error('%s ERR %s', log_prefix, error)
+      callback(error)
+    } else {
+      console.log('%s OK', log_prefix)
+      callback(null, body)
+    }
+  })
+}
+
+function HMAC(payload, secret) {
   return require('crypto')
     .createHmac('sha256', secret)
     .update(payload).digest('base64')
@@ -110,44 +139,44 @@ function get_user_date(data) {
 
 //----------------------------------------------------------------------------
 
-app.get('/auth/facebook', passport.authenticate('facebook'))
-app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-  successRedirect: SUCCESS_URL, failureRedirect: FAILURE_URL
+app.get('/auth/facebook', Passport.authenticate('facebook'))
+app.get('/auth/facebook/callback', Passport.authenticate('facebook', {
+  successRedirect: '/', failureRedirect: '/auth/error'
 }))
 
-passport.use(new (require('passport-facebook').Strategy)({
-  clientID: getenv('FACEBOOK_ID'),
-  clientSecret: getenv('FACEBOOK_SECRET'),
-  callbackURL: getenv('APP_URL') + '/auth/facebook/callback'
+Passport.use(new (require('passport-facebook').Strategy)({
+  clientID: FACEBOOK_ID,
+  clientSecret: FACEBOOK_SECRET,
+  callbackURL: APP_URL + '/auth/facebook/callback'
 }, function (access_token, refresh_token, profile, callback) {
   callback(null, profile)
 }))
 
 //----------------------------------------------------------------------------
 
-app.get('/auth/twitter', passport.authenticate('twitter'))
-app.get('/auth/twitter/callback', passport.authenticate('twitter', {
-  successRedirect: SUCCESS_URL, failureRedirect: FAILURE_URL
+app.get('/auth/twitter', Passport.authenticate('twitter'))
+app.get('/auth/twitter/callback', Passport.authenticate('twitter', {
+  successRedirect: '/', failureRedirect: '/auth/error'
 }))
 
-passport.use(new (require('passport-twitter').Strategy)({
-  consumerKey: getenv('TWITTER_ID'),
-  consumerSecret: getenv('TWITTER_SECRET'),
-  callbackURL: getenv('APP_URL') + '/auth/twitter/callback'
+Passport.use(new (require('passport-twitter').Strategy)({
+  consumerKey: TWITTER_ID,
+  consumerSecret: TWITTER_SECRET,
+  callbackURL: APP_URL + '/auth/twitter/callback'
 }, function (token, token_secret, profile, callback) {
   callback(null, profile)
 }))
 
 //----------------------------------------------------------------------------
 
-app.get('/auth/google', passport.authenticate('google'))
-app.get('/auth/google/callback', passport.authenticate('google', {
-  successRedirect: SUCCESS_URL, failureRedirect: FAILURE_URL
+app.get('/auth/google', Passport.authenticate('google'))
+app.get('/auth/google/callback', Passport.authenticate('google', {
+  successRedirect: '/', failureRedirect: '/auth/error'
 }))
 
-passport.use(new (require('passport-google').Strategy)({
-  returnURL: getenv('APP_URL') + '/auth/google/callback',
-  realm: getenv('APP_URL')
+Passport.use(new (require('passport-google').Strategy)({
+  returnURL: APP_URL + '/auth/google/callback',
+  realm: APP_URL
 }, function (identifier, profile, callback) {
   callback(null, profile)
 }))
