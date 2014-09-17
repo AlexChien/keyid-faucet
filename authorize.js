@@ -9,6 +9,7 @@ module.exports = function (request, response, next) {
 }
 
 function validate(user, callback) {
+  // XXX: Check whether the account is sufficiently old
   if (user) {
     callback(null)
   } else {
