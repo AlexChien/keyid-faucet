@@ -56,8 +56,7 @@ module.exports = function (app) {
   })
 
   app.get('/auth/error', function (request, response) {
-    response.status(401).end(
-      'Error: Failed to authenticate with identity provider'
-    )
+    // XXX: Handle this more gracefully
+    response.status(401).end('Authentication failed')
   })
 }
