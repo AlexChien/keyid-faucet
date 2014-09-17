@@ -9,7 +9,7 @@ var PROVIDER_OPTIONS = { google: { scope: ['profile'] } }
 Passport.serializeUser(function (x, ok) { return ok(null, x) })
 Passport.deserializeUser(function (x, ok) { return ok(null, x) })
 
-Passport.use(new (require('passport-google-oauth').Strategy)({
+Passport.use(new (require('passport-google-oauth').OAuth2Strategy)({
   consumerKey: getenv('GOOGLE_ID'),
   consumerSecret: getenv('GOOGLE_SECRET'),
   callbackURL: APP_URL + '/auth/google/callback'
