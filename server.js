@@ -3,6 +3,7 @@ var app = require('express')()
 app.use(require('express').static(__dirname + '/public'))
 app.use(require('morgan')('dev'))
 app.use(require('body-parser').json())
+app.use(require('./error-handler.js'))
 require('./passport.js')(app)
 app.use(require('./parse-user.js'))
 
