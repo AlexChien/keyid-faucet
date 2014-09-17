@@ -1,4 +1,4 @@
-var Passport = require('passport')
+var passport = require('passport')
 var getenv = require('./getenv.js')
 
 var APP_URL = getenv('APP_URL')
@@ -6,10 +6,10 @@ var APP_URL = getenv('APP_URL')
 var PROVIDERS = 'google twitter facebook'
 var PROVIDER_OPTIONS = { google: { scope: ['profile'] } }
 
-Passport.serializeUser(function (x, ok) { return ok(null, x) })
-Passport.deserializeUser(function (x, ok) { return ok(null, x) })
+passport.serializeUser(function (x, ok) { return ok(null, x) })
+passport.deserializeUser(function (x, ok) { return ok(null, x) })
 
-Passport.use(new (require('passport-google-oauth').OAuth2Strategy)({
+passport.use(new (require('passport-google-oauth').OAuth2Strategy)({
   clientID: getenv('GOOGLE_ID'),
   clientSecret: getenv('GOOGLE_SECRET'),
   callbackURL: APP_URL + '/auth/google/callback'
@@ -17,7 +17,7 @@ Passport.use(new (require('passport-google-oauth').OAuth2Strategy)({
   callback(null, profile)
 }))
 
-Passport.use(new (require('passport-facebook').Strategy)({
+passport.use(new (require('passport-facebook').Strategy)({
   clientID: getenv('FACEBOOK_ID'),
   clientSecret: getenv('FACEBOOK_SECRET'),
   callbackURL: APP_URL + '/auth/facebook/callback'
@@ -25,7 +25,7 @@ Passport.use(new (require('passport-facebook').Strategy)({
   callback(null, profile)
 }))
 
-Passport.use(new (require('passport-twitter').Strategy)({
+passport.use(new (require('passport-twitter').Strategy)({
   consumerKey: getenv('TWITTER_ID'),
   consumerSecret: getenv('TWITTER_SECRET'),
   callbackURL: APP_URL + '/auth/twitter/callback'
@@ -39,14 +39,14 @@ module.exports = function (app) {
     secret: require('./getenv.js')('SESSION_SECRET')
   }))
 
-  app.use(Passport.initialize())
-  app.use(Passport.session())
+  app.use(passport.initialize())
+  app.use(passport.session())
 
   PROVIDERS.split(' ').forEach(function (provider) {
-    app.get('/auth/' + provider, Passport.authenticate(
+    app.get('/auth/' + provider, passport.authenticate(
       provider, PROVIDER_OPTIONS[provider]
     ))
-    app.get('/auth/' + provider + '/callback', Passport.authenticate(
+    app.get('/auth/' + provider + '/callback', passport.authenticate(
       provider, { successRedirect: '/', failureRedirect: '/auth/error' }
     ))
   })
