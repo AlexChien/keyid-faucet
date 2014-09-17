@@ -2,7 +2,9 @@ var Passport = require('passport')
 var getenv = require('./getenv.js')
 
 var APP_URL = getenv('APP_URL')
+
 var PROVIDERS = 'google twitter facebook'
+var PROVIDER_OPTIONS = { google: { scope: ['profile'] } }
 
 Passport.serializeUser(function (x, ok) { return ok(null, x) })
 Passport.deserializeUser(function (x, ok) { return ok(null, x) })
@@ -41,7 +43,11 @@ module.exports = function (app) {
   app.use(Passport.session())
 
   PROVIDERS.split(' ').forEach(function (provider) {
-    app.get('/auth/' + provider, Passport.authenticate(provider))
+    app.get(
+      '/auth/' + provider,
+      Passport.authenticate(provider),
+      PROVIDER_OPTIONS[provider]
+    )
     app.get('/auth/' + provider + '/callback', Passport.authenticate(
       provider, { successRedirect: '/', failureRedirect: '/auth/error' }
     ))
