@@ -3,7 +3,7 @@ var getenv = require('./getenv.js')
 
 var APP_URL = getenv('APP_URL')
 
-var PROVIDERS = 'google twitter facebook'
+var PROVIDERS = 'google twitter facebook'.split(' ')
 var PROVIDER_OPTIONS = { google: { scope: ['profile'] } }
 
 passport.serializeUser(function (x, ok) { return ok(null, x) })
@@ -42,7 +42,7 @@ module.exports = function (app) {
   app.use(passport.initialize())
   app.use(passport.session())
 
-  PROVIDERS.split(' ').forEach(function (provider) {
+  PROVIDERS.forEach(function (provider) {
     app.get('/auth/' + provider, passport.authenticate(
       provider, PROVIDER_OPTIONS[provider]
     ))
