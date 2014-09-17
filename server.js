@@ -45,7 +45,7 @@ app.post('/register-account', function (request, response) {
   require('request').post({
     url: getenv('BACKEND_URL'),
     json: json
-  }, function (error, response, body) {
+  }, function (error, raw, body) {
     response.end(error ? error.toString() : JSON.stringify(body))
     console.log('Done registering: %s %s', error, body)
   })
