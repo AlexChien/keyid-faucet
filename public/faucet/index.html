@@ -1,0 +1,60 @@
+<!doctype html>
+<html ng-app="index" ng-controller="IndexController">
+  <head>
+    <title>KeyID account faucet</title>
+    <link rel="stylesheet" href="index.css">
+    <meta name="viewport" content="width=device-width">
+    <script src="angular.js"></script>
+    <script src="index.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <hgroup>
+          <h1>KeyID account faucet</h1>
+          <h2>Get your free KeyID account instantly</h2>
+        </hgroup>
+      </header>
+      <div ng-show="!user">
+        <p>To claim your free KeyID account, please authenticate with
+          one of the following centralized identity providers
+          first:</p>
+        <ul>
+          <!-- <li><a href="/auth/facebook">Authenticate with Facebook</a></li> -->
+          <li><a href="/auth/twitter">Authenticate with Twitter</a></li>
+          <li><a href="/auth/google">Authenticate with Google</a></li>
+        </ul>
+        <p><small>Note: This step is only necessary to prevent abuse
+            of the faucet.  There is no link whatsoever between these
+            services and your KeyID account.</small></p>
+      </div>
+      <div ng-show="user">
+        <div class="highlight">
+          Authenticated with {{user.provider}}
+          <a href="/auth/disconnect">&times;</a>
+        </div>
+        <div ng-show="!result">
+          <p>To register your account, please enter your account key
+            as shown in your KeyID wallet.</p>
+          <p ng-show="error" class="error">{{error}}</p>
+          <form ng-submit="register_account()">
+            <div>
+              <input type="text" ng-model="key"
+                     placeholder="Account key (from your KeyID wallet)">
+            </div>
+            <div>
+              <input type="text" ng-model="name"
+                     placeholder="Choose your username">
+            </div>
+            <div>
+              <input type="submit" value="Register KeyID account">
+            </div>
+          </form>
+        </div>
+        <div ng-show="result">
+          <p>Done!  Your KeyID account is now registered.</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
