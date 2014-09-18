@@ -6,10 +6,3 @@ body { text-align: center; margin-top: 50vh; }
 .container { min-height: 16em; width: 20em; }
 h1 { font-size: 160%; margin-top: 0; margin-bottom: .2ex; }
 h2 { font-size: 100%; margin-top: 0; color: gray; }
-input { width: 100%; }
-.highlight { padding: 1ex 1em; background: #ffc; text-align: center; }
-.highlight { position: relative; }
-.highlight a { position: absolute; top: .5ex; right: .5ex; }
-.highlight a { text-decoration: none; color: gray; line-height: 1ex; }
-small { color: gray; }
-.error { color: red; font-weight: bold; }
