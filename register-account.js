@@ -4,7 +4,7 @@ module.exports = function (request, response) {
     name: request.body.name,
     user: request.user
   }, function (error, body) {
-    if (error) {
+    if (error || !body || body.error) {
       response.status(500).send({ error: error.message })
     } else {
       response.send({ success: true })
