@@ -6,7 +6,7 @@ module.exports = function (request, response, next) {
 function parse(user) {
   return {
     provider: user.provider,
-    pretty_provider: get_pretty_provider(user)
+    pretty_provider: get_pretty_provider(user),
     id: user.id,
     date: get_date(user)
   }
