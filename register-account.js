@@ -5,9 +5,9 @@ module.exports = function (request, response) {
     user: request.user
   }, function (error, body) {
     if (error) {
-      response.status(500).send({ error: error.message })
+      response.send({ error: error.message })
     } else if (body.error) {
-      response.status(500).send({ error: body.error })
+      response.send({ error: body.error })
     } else {
       response.send({ success: true })
     }
