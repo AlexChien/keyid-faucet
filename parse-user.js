@@ -5,28 +5,16 @@ module.exports = function (request, response, next) {
 
 function parse(user) {
   return {
-    provider: get_provider(user),
-    name: get_name(user),
-    image: get_image(user),
-    date: get_date(user)
+    provider: user.provider,
+    id: user.id,
+    date: get_date(user),
+    pretty_provider: get_pretty_provider(user),
+    pretty_name: get_name(user)
   }
 }
 
-function get_provider(user) {
+function get_pretty_provider(user) {
   return user.provider.charAt(0).toUpperCase() + user.provider.substring(1)
-}
-
-function get_name(user) {
-  switch (user.provider) {
-  case 'twitter':
-    return '@' + user.username
-  default:
-    return user.displayName
-  }
-}
-
-function get_image(user) {
-  return user.photos && user.photos[0] && user.photos[0].value
 }
 
 function get_date(user) {

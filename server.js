@@ -19,7 +19,7 @@ app.get('/user/raw', function (request, response) {
 app.post(
   '/register-account',
   require('./authorize.js'),
-  require('./call-backend.js')
+  require('./register-account.js')
 )
 
 app.listen(require('./getenv.js')('PORT'))
