@@ -10,7 +10,7 @@ app.controller('IndexController', function ($scope, $http) {
         if (data.error) {
           $scope.error = data.error
         } else {
-          $scope.result = data.result
+          $scope.success = data.success
         }
       })
     }
