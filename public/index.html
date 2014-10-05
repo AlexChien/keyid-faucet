@@ -4,6 +4,7 @@
     <title>KeyID account faucet</title>
     <link rel="stylesheet" href="index.css">
     <meta name="viewport" content="width=device-width">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="angular.js"></script>
     <script src="index.js"></script>
   </head>
@@ -11,7 +12,8 @@
     <div class="container">
       <header>
         <hgroup>
-          <h1>KeyID account faucet</h1>
+        <img src="img/keyID-icon.svg" width="128" />
+          <h1><strong>KeyID</strong> account faucet</h1>
           <h2>Get your free KeyID account instantly</h2>
         </hgroup>
       </header>
@@ -19,15 +21,18 @@
         <p>To claim your free KeyID account, please authenticate with
           one of the following centralized identity providers
           first:</p>
-        <ul>
-          <!-- <li><a href="/auth/facebook">Authenticate with Facebook</a></li> -->
-          <li><a href="/auth/twitter">Authenticate with Twitter</a></li>
-          <li><a href="/auth/google">Authenticate with Google</a></li>
-        </ul>
+        
+          <!-- <a class="btn" href="/auth/facebook"><i class="fa fa-facebook"></i>
+           Authenticate with Facebook</a> -->
+          <a class="btn" href="/auth/twitter"><i class="fa fa-twitter"></i> Authenticate with Twitter</a>
+         <a class="btn" href="/auth/google"><i class="fa fa-google"></i>
+          Authenticate with Google</a>
+       
         <p><small>Note: This step is only necessary to prevent abuse
             of the faucet.  There is no link whatsoever between these
             services and your KeyID account.</small></p>
-      </div>
+        
+<p style=" opacity: 0.7;margin-left: -32px;">powered by <a href="http://www.bitshares.org" target="_blank"><img style="margin: 4px 0 0 4px; position: absolute;" width="24"  src="img/bts-logo-ico.svg" /></a></p>      </div>
       <div ng-show="user">
         <div class="highlight">
           Authenticated with {{user.pretty_provider}}
